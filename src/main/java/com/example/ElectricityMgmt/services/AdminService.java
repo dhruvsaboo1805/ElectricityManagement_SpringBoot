@@ -40,6 +40,9 @@ public class AdminService implements IAdminService{
 
         Consumer consumer = new Consumer();
         consumer.setConsumerNumber(consumerRequestDTO.getConsumerNumber());
+
+        customer.getConsumers().add(consumer);
+        consumer.setCustomer(customer);
         consumerRepository.save(consumer);
         ConsumerResponseDTO consumerResponseDTO = new ConsumerResponseDTO().builder()
                 .id(consumer.getId())

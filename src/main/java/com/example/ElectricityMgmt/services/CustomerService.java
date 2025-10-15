@@ -31,11 +31,13 @@ public class CustomerService implements ICustomerService {
         user.setUsername(customerRequestDTO.getUsername());
         user.setPassword(customerRequestDTO.getPassword());
         user.setRole(RoleType.USER);
-        userRepository.save(user);
 
         Customer customer = CustomerMapper.mapCustomerRequestDTOToCustomer(customerRequestDTO);
         log.info("CustomerMapper.mapCustomerRequestDTOToCustomer -> customer={}", customer);
-        // todo to signup up customer
+
+        customer.setUser(user);
+        user.setCustomer(customer);
+        userRepository.save(user);
         customerRepository.save(customer);
 
         log.info("customer created successfully");

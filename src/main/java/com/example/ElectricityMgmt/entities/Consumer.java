@@ -48,7 +48,7 @@ public class Consumer {
         this.updated_at = Instant.now();
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

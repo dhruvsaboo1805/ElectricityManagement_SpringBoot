@@ -17,8 +17,8 @@ public class ConsumerMapper {
     public static ConsumerResponseDTO mapToConsumerResponseDTO(Consumer consumer) {
         ConsumerResponseDTO consumerResponseDTO = new ConsumerResponseDTO().builder()
                 .id(consumer.getId())
-                .consumerNumber(consumer.getConsumerNumber())
                 .customerId(consumer.getCustomer().getId())
+                .consumerNumber(consumer.getConsumerNumber())
                 .isConnected(consumer.isConnected())
                 .build();
         return consumerResponseDTO;

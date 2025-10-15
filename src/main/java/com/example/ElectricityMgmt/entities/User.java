@@ -60,6 +60,9 @@ public class User {
         this.updated_at = Instant.now();
     }
 
+    @OneToOne(mappedBy = "user" , cascade = CascadeType.ALL)
+    private Customer customer;
+
 
 
 }
