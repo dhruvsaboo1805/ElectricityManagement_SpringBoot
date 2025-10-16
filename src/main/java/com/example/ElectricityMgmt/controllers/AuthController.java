@@ -1,6 +1,7 @@
 package com.example.ElectricityMgmt.controllers;
 
 
+import com.example.ElectricityMgmt.config.Auth;
 import com.example.ElectricityMgmt.dto.CustomerRequestDTO;
 import com.example.ElectricityMgmt.dto.CustomerResponseDTO;
 import com.example.ElectricityMgmt.dto.LoginRequestDTO;
@@ -12,20 +13,32 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @RestController
 @CrossOrigin(origins = "*" , allowedHeaders = "*" , methods = {RequestMethod.GET, RequestMethod.POST})
 @RequestMapping("api/auth/")
 @RequiredArgsConstructor
 public class AuthController {
 
+    private final Auth auth;
+    private String authCode="";
     private final AuthService authService;
     private final ICustomerService customerService;
 
+    @ModelAttribute
+    public void init(@RequestHeader("Authorization") String authCode){
+        this.authCode = authCode;
+    }
+
     @PostMapping("login")
-    public ResponseEntity<LoginResponseDTO> LoginUser(@RequestBody LoginRequestDTO loginRequestDTO) throws Exception {
+    public ResponseEntity<?> LoginUser(@RequestBody LoginRequestDTO loginRequestDTO) throws Exception {
         LoginResponseDTO authDTO = authService.LoginUser(loginRequestDTO);
+        HashMap<String,LoginResponseDTO> map = new HashMap<>();
+        map.put("result",authDTO);
+        map.put(authCode , null);
         if (authDTO != null) {
-            return ResponseEntity.ok(authDTO);
+            return ResponseEntity.ok(map);
         } else {
             return ResponseEntity.status(401).body(null);
         }
