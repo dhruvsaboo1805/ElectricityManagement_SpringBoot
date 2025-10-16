@@ -1,20 +1,21 @@
 package com.example.ElectricityMgmt.services;
 
-import com.example.ElectricityMgmt.dto.BillRequestDTO;
-import com.example.ElectricityMgmt.dto.BillResponseDTO;
-import com.example.ElectricityMgmt.dto.ConsumerRequestDTO;
-import com.example.ElectricityMgmt.dto.ConsumerResponseDTO;
+import com.example.ElectricityMgmt.dto.*;
 import com.example.ElectricityMgmt.entities.Bill;
 import com.example.ElectricityMgmt.entities.Consumer;
 import com.example.ElectricityMgmt.entities.Customer;
+import com.example.ElectricityMgmt.entities.User;
+import com.example.ElectricityMgmt.enums.RoleType;
 import com.example.ElectricityMgmt.exceptions.ConsumerNotFoundException;
 import com.example.ElectricityMgmt.exceptions.CustomerNoFoundException;
+import com.example.ElectricityMgmt.exceptions.UserNotFoundException;
 import com.example.ElectricityMgmt.mappers.BillMapper;
 import com.example.ElectricityMgmt.mappers.ConsumerMapper;
 import com.example.ElectricityMgmt.mappers.CustomerMapper;
 import com.example.ElectricityMgmt.repositries.IBillRepository;
 import com.example.ElectricityMgmt.repositries.IConsumerRepository;
 import com.example.ElectricityMgmt.repositries.ICustomerRepository;
+import com.example.ElectricityMgmt.repositries.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,26 @@ public class AdminService implements IAdminService{
     private final IConsumerRepository consumerRepository;
     private final IBillRepository billRepository;
     private final ICustomerRepository customerRepository;
+    private final IUserRepository userRepository;
+
+    @Override
+    public AdminResponseDTO createAdmin(AdminRequestDTO adminRequestDTO) {
+        User user = new User();
+        if(userRepository.findByUsername(adminRequestDTO.getUsername()).isPresent()) {
+            throw new UserNotFoundException("Admin already exists try to login");
+        }
+        user.setUsername(adminRequestDTO.getUsername());
+        user.setPassword(adminRequestDTO.getPassword());
+        user.setRole(RoleType.ADMIN);
+        userRepository.save(user);
+        AdminResponseDTO adminResponseDTO = new AdminResponseDTO().builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .role(RoleType.ADMIN)
+                .build();
+        return adminResponseDTO;
+    }
 
     @Override
     public ConsumerResponseDTO addConsumer(ConsumerRequestDTO consumerRequestDTO) {

@@ -1,13 +1,11 @@
 package com.example.ElectricityMgmt.services;
 
-import com.example.ElectricityMgmt.dto.BillRequestDTO;
-import com.example.ElectricityMgmt.dto.BillResponseDTO;
-import com.example.ElectricityMgmt.dto.ConsumerRequestDTO;
-import com.example.ElectricityMgmt.dto.ConsumerResponseDTO;
+import com.example.ElectricityMgmt.dto.*;
 
 import java.util.List;
 
 public interface IAdminService {
+    AdminResponseDTO createAdmin(AdminRequestDTO adminRequestDTO);
     ConsumerResponseDTO addConsumer(ConsumerRequestDTO consumerRequestDTO);
     BillResponseDTO addBill(BillRequestDTO billRequestDTO);
     List<ConsumerResponseDTO> getAllConsumers();

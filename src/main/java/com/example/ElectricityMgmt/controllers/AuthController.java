@@ -17,34 +17,34 @@ import java.util.HashMap;
 
 @RestController
 @CrossOrigin(origins = "*" , allowedHeaders = "*" , methods = {RequestMethod.GET, RequestMethod.POST})
-@RequestMapping("api/auth/")
+@RequestMapping("api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final Auth auth;
-    private String authCode="";
+    private static String authCode="";
     private final AuthService authService;
     private final ICustomerService customerService;
 
     @ModelAttribute
-    public void init(@RequestHeader("Authorization") String authCode){
-        this.authCode = authCode;
+    public void init(@RequestHeader(value = "Authorization") String authCode){
+        AuthController.authCode = authCode;
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<?> LoginUser(@RequestBody LoginRequestDTO loginRequestDTO) throws Exception {
         LoginResponseDTO authDTO = authService.LoginUser(loginRequestDTO);
         HashMap<String,LoginResponseDTO> map = new HashMap<>();
         map.put("result",authDTO);
-        map.put(authCode , null);
-        if (authDTO != null) {
+//        map.put(authCode , null);
+        if (authDTO != null  && auth.isValidCode(authDTO.getUsername() , authDTO.getAuthToken())) {
             return ResponseEntity.ok(map);
         } else {
             return ResponseEntity.status(401).body(null);
         }
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<CustomerResponseDTO> createCustomer(@RequestBody CustomerRequestDTO customerRequestDTO) throws Exception {
         CustomerResponseDTO cDto = customerService.createCustomer(customerRequestDTO);
         if(cDto != null) {

@@ -1,11 +1,13 @@
 package com.example.ElectricityMgmt.controllers;
 
+import com.example.ElectricityMgmt.config.Auth;
 import com.example.ElectricityMgmt.dto.*;
 import com.example.ElectricityMgmt.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -13,9 +15,21 @@ import java.util.List;
 @RequestMapping("api/admin")
 @RequiredArgsConstructor
 public class AdminController {
+//    private final Auth auth;
+//    private static String authCode="";
     private final IAdminService adminService;
     private final ICustomerService customerService;
     private final IBillService billService;
+
+    @PostMapping("/register")
+    public ResponseEntity<AdminResponseDTO> createAdmin(@RequestBody AdminRequestDTO adminequestDTO) throws Exception {
+        AdminResponseDTO lDto = adminService.createAdmin(adminequestDTO);
+        if(lDto != null) {
+            return ResponseEntity.ok(lDto);
+        } else {
+            return ResponseEntity.status(401).body(null);
+        }
+    }
 
     @GetMapping("/customers")
     public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers(){

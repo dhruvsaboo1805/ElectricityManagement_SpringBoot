@@ -27,19 +27,17 @@ public class AuthService {
         String token;
         switch (user.getRole()) {
             case CUSTOMER:
-                auth.generateUserAuthCode(user.getUsername());
-                token = auth.getUserToken(user.getUsername());
+                token = auth.generateUserAuthCode(user.getUsername());
                 break;
             case ADMIN:
-                auth.generateAdminAuthCode(user.getUsername());
-                token = auth.getAdminToken(user.getUsername());
+                token = auth.generateAdminAuthCode(user.getUsername());
                 break;
             case SME:
-                auth.generateSmeAuthCode(user.getUsername());
-                token = auth.getSmeToken(user.getUsername());
+                token = auth.generateSmeAuthCode(user.getUsername());
                 break;
             default:
-                throw new UserNotFoundException("Role not defined");
+                // It's better to throw a server error here if role is invalid
+                throw new IllegalStateException("User has an undefined role: " + user.getRole());
         }
         log.info("token is -> " + token);
 
