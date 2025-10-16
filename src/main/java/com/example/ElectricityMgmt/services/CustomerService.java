@@ -5,6 +5,7 @@ import com.example.ElectricityMgmt.dto.CustomerResponseDTO;
 import com.example.ElectricityMgmt.entities.Customer;
 import com.example.ElectricityMgmt.entities.User;
 import com.example.ElectricityMgmt.enums.RoleType;
+import com.example.ElectricityMgmt.exceptions.UserNotFoundException;
 import com.example.ElectricityMgmt.mappers.CustomerMapper;
 import com.example.ElectricityMgmt.repositries.ICustomerRepository;
 import com.example.ElectricityMgmt.repositries.IUserRepository;
@@ -25,7 +26,7 @@ public class CustomerService implements ICustomerService {
     @Override
     public CustomerResponseDTO createCustomer(CustomerRequestDTO customerRequestDTO) throws Exception {
         if(userRepository.findByUsername(customerRequestDTO.getUsername()).isPresent()) {
-            throw new Exception("User already exists try to login");
+            throw new UserNotFoundException("User already exists try to login");
         }
         User user = new User();
         user.setUsername(customerRequestDTO.getUsername());

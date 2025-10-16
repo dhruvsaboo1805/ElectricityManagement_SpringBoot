@@ -4,6 +4,8 @@ import com.example.ElectricityMgmt.dto.BillResponseDTO;
 import com.example.ElectricityMgmt.entities.Bill;
 import com.example.ElectricityMgmt.entities.Consumer;
 import com.example.ElectricityMgmt.enums.PaymentStatus;
+import com.example.ElectricityMgmt.exceptions.BillNotFoundException;
+import com.example.ElectricityMgmt.exceptions.ConsumerNotFoundException;
 import com.example.ElectricityMgmt.mappers.BillMapper;
 import com.example.ElectricityMgmt.repositries.IBillRepository;
 import com.example.ElectricityMgmt.repositries.IConsumerRepository;
@@ -24,7 +26,7 @@ public class BillService implements IBillService{
     @Override
     public List<BillResponseDTO> getBillByConsumerNumber(String consumerNumber) {
         Consumer consumer = consumerRepository.findByConsumerNumber(consumerNumber)
-                .orElseThrow(() -> new RuntimeException("Consumer number not found"));
+                .orElseThrow(() -> new ConsumerNotFoundException("Consumer number not found"));
         return billRepository.findByConsumerId(consumer.getId()).stream()
                 .map(BillMapper::maptoBillResponseDTOFromBill)
                 .collect(Collectors.toList());
@@ -33,7 +35,7 @@ public class BillService implements IBillService{
     @Override
     public BillResponseDTO payBill(Long id) throws Exception {
         Bill bill = billRepository.findById(id)
-                .orElseThrow(() -> new Exception("bill not found"));
+                .orElseThrow(() -> new BillNotFoundException("Bill not found with the given BillId"));
         bill.setPaymentStatus(PaymentStatus.PAID);
         billRepository.save(bill);
         return BillMapper.maptoBillResponseDTOFromBill(bill);

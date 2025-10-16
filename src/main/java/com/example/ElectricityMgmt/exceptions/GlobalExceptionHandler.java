@@ -11,4 +11,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleUsernameAlreadyExistsException(UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
+    @ExceptionHandler(CustomerNoFoundException.class)
+    public ResponseEntity<String> handleCustomerNoFoundException(CustomerNoFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ConsumerNotFoundException.class)
+    public ResponseEntity<String> handleConsumerNotFoundException(ConsumerNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(BillNotFoundException.class)
+    public ResponseEntity<String> handleBillNotFoundException(BillNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 }
