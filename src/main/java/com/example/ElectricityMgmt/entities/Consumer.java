@@ -55,5 +55,8 @@ public class Consumer {
     @OneToMany(mappedBy = "consumer" , cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Bill> bills;
 
+    @OneToMany(mappedBy = "consumer",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Complaint> complaints;
+
     private boolean isConnected = true;
 }
