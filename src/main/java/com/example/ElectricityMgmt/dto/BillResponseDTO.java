@@ -19,6 +19,8 @@ public class BillResponseDTO {
 
     private String billNumber;
 
+    private String consumerNumber;
+
     private String mobileNumber; // Mobile number associated with the bill
 
     private String billPeriod; // Bill period (e.g., "Jan 2025")

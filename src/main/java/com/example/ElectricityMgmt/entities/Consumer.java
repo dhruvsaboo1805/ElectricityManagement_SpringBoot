@@ -52,7 +52,7 @@ public class Consumer {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "consumer" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "consumer" , cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Bill> bills;
 
     private boolean isConnected = true;

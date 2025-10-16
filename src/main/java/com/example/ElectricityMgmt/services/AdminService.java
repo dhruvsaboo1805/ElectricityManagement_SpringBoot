@@ -55,8 +55,12 @@ public class AdminService implements IAdminService{
 
     @Override
     public BillResponseDTO addBill(BillRequestDTO billRequestDTO) {
+        Consumer consumer = consumerRepository.findByConsumerNumber(billRequestDTO.getConsumerNumber())
+                .orElseThrow(() -> new RuntimeException("Consumer Not Found"));
+
         Bill bill = new Bill();
         bill.setBillNumber(billRequestDTO.getBillNumber());
+        bill.setConsumer(consumer);
         bill.setMobileNumber(billRequestDTO.getMobileNumber());
         bill.setBillPeriod(billRequestDTO.getBillPeriod());
         bill.setBillDate(billRequestDTO.getBillDate());
@@ -66,7 +70,6 @@ public class AdminService implements IAdminService{
         bill.setPaymentStatus(billRequestDTO.getPaymentStatus());
         bill.setConnectionStatus(billRequestDTO.getConnectionStatus());
         bill.setConnectionType(billRequestDTO.getConnectionType());
-
 
         billRepository.save(bill);
 

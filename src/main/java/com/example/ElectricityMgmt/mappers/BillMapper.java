@@ -7,6 +7,7 @@ public class BillMapper {
     public static BillResponseDTO maptoBillResponseDTOFromBill(Bill bill) {
         BillResponseDTO billResponseDTO = new BillResponseDTO().builder()
                 .id(bill.getId())
+                .consumerNumber(bill.getConsumer().getConsumerNumber())
                 .billNumber(bill.getBillNumber())
                 .mobileNumber(bill.getMobileNumber())
                 .billPeriod(bill.getBillPeriod())
