@@ -31,7 +31,7 @@ public class CustomerService implements ICustomerService {
         User user = new User();
         user.setUsername(customerRequestDTO.getUsername());
         user.setPassword(customerRequestDTO.getPassword());
-        user.setRole(RoleType.USER);
+        user.setRole(RoleType.CUSTOMER);
 
         Customer customer = CustomerMapper.mapCustomerRequestDTOToCustomer(customerRequestDTO);
         log.info("CustomerMapper.mapCustomerRequestDTOToCustomer -> customer={}", customer);

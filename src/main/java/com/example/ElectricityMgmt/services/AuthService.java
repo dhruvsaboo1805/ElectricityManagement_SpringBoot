@@ -1,5 +1,6 @@
 package com.example.ElectricityMgmt.services;
 
+import com.example.ElectricityMgmt.config.Auth;
 import com.example.ElectricityMgmt.dto.LoginRequestDTO;
 import com.example.ElectricityMgmt.dto.LoginResponseDTO;
 import com.example.ElectricityMgmt.entities.User;
@@ -14,15 +15,41 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
     private final IUserRepository userRepository;
+    private final Auth auth;
 
     public LoginResponseDTO LoginUser(LoginRequestDTO loginRequestDTO) {
         User user = userRepository.findByUsername(loginRequestDTO.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("User not found please register yourself"));
         if(!user.getPassword().equals(loginRequestDTO.getPassword())){
-            // change exception accordingly todo
             throw new UserNotFoundException("Credentials don't match");
         }
-        return new LoginResponseDTO(user.getId() , user.getUsername() , user.getPassword() , user.getRole());
 
+        String token;
+        switch (user.getRole()) {
+            case CUSTOMER:
+                auth.generateUserAuthCode(user.getUsername());
+                token = auth.getUserToken(user.getUsername());
+                break;
+            case ADMIN:
+                auth.generateAdminAuthCode(user.getUsername());
+                token = auth.getAdminToken(user.getUsername());
+                break;
+            case SME:
+                auth.generateSmeAuthCode(user.getUsername());
+                token = auth.getSmeToken(user.getUsername());
+                break;
+            default:
+                throw new UserNotFoundException("Role not defined");
+        }
+        log.info("token is -> " + token);
+
+        LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
+        loginResponseDTO.setId(user.getId());
+        loginResponseDTO.setUsername(user.getUsername());
+        loginResponseDTO.setPassword(user.getPassword());
+        loginResponseDTO.setRole(user.getRole());
+        loginResponseDTO.setAuthToken(token);
+        log.info("loginresponse dto is -> " + loginResponseDTO);
+        return loginResponseDTO;
     }
 }
