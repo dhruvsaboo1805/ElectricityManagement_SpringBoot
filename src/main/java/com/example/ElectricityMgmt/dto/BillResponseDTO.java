@@ -1,5 +1,6 @@
 package com.example.ElectricityMgmt.dto;
 
+import com.example.ElectricityMgmt.enums.ComplaintStatus;
 import com.example.ElectricityMgmt.enums.ConnectionStatus;
 import com.example.ElectricityMgmt.enums.ConnectionType;
 import com.example.ElectricityMgmt.enums.PaymentStatus;
@@ -38,5 +39,7 @@ public class BillResponseDTO {
     private ConnectionType connectionType; // Type of connection (DOMESTIC/COMMERCIAL)
 
     private ConnectionStatus connectionStatus;
+
+    private ComplaintStatus complaintStatus;
 
 }
