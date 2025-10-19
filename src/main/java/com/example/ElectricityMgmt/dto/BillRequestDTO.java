@@ -34,4 +34,6 @@ public class BillRequestDTO {
     private ConnectionType connectionType; // Type of connection (DOMESTIC/COMMERCIAL)
 
     private ConnectionStatus connectionStatus; // Connection status (CONNECTED/DISCONNECTED)
+
+    private String username;
 }

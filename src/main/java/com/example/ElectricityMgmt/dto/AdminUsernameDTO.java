@@ -6,11 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
-public class ConsumerRequestDTO {
-    private Long customerId;
-    private String consumerNumber;
+public class AdminUsernameDTO {
     private String username;
 }
