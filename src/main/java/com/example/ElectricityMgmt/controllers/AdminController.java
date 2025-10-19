@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -16,15 +14,16 @@ import java.util.List;
 @RequestMapping("api/admin")
 @RequiredArgsConstructor
 public class AdminController {
-    @Autowired
     private final Auth auth;
     private static String authCode="";
+    private static String username = "";
     private final IAdminService adminService;
     private final ICustomerService customerService;
     private final IBillService billService;
 
     @ModelAttribute
-    public void init(@RequestHeader("Authorization") String auth){
+    public void init(@RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth){
+        username = uname;
         authCode = auth;
     }
 
@@ -38,9 +37,9 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/customers")
-    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers(@RequestBody AdminUsernameDTO adminUsername){
-        if(!auth.isValidAdminCode(adminUsername.getUsername(),authCode))
+    @GetMapping("/allCustomers")
+    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers(){
+        if(!auth.isValidAdminCode(username,authCode))
             return ResponseEntity.status(401).body(null);
 
         return ResponseEntity.ok(customerService.getAllCustomers());
@@ -54,9 +53,9 @@ public class AdminController {
         return ResponseEntity.ok(adminService.addConsumer(consumerRequestDTO));
     }
 
-    @PostMapping("/getAllConsumers")
-    public ResponseEntity<List<ConsumerResponseDTO>> getAllConsumers(@RequestBody AdminUsernameDTO adminUsername){
-        if(!auth.isValidAdminCode(adminUsername.getUsername(),authCode))
+    @GetMapping("/allConsumers")
+    public ResponseEntity<List<ConsumerResponseDTO>> getAllConsumers(){
+        if(!auth.isValidAdminCode(username,authCode))
             return ResponseEntity.status(401).body(null);
 
         return ResponseEntity.ok(adminService.getAllConsumers());
@@ -78,9 +77,9 @@ public class AdminController {
         return ResponseEntity.ok(adminService.addBill(billRequestDTO));
     }
 
-    @PostMapping("/getAllBills")
-    public ResponseEntity<List<BillResponseDTO>> getAllBills(@RequestBody AdminUsernameDTO adminUsername){
-        if(!auth.isValidAdminCode(adminUsername.getUsername(),authCode))
+    @GetMapping("/allBills")
+    public ResponseEntity<List<BillResponseDTO>> getAllBills(){
+        if(!auth.isValidAdminCode(username , authCode))
             return ResponseEntity.status(401).body(null);
 
         return ResponseEntity.ok(billService.getAllBills());

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,9 +50,16 @@ public class BillService implements IBillService{
     }
 
     @Override
-    public List<BillResponseDTO> getAllPaidBills() {
-        return billRepository.findByPaymentStatus(PaymentStatus.PAID).stream()
-                .map(BillMapper::maptoBillResponseDTOFromBill)
-                .collect(Collectors.toList());
+    public List<BillResponseDTO> getAllPaidBills(String consumerNumber) {
+        Consumer consumer = consumerRepository.findByConsumerNumber(consumerNumber)
+                .orElseThrow(() -> new ConsumerNotFoundException("Consumer number not found"));
+
+        List<BillResponseDTO> response = new ArrayList<>();
+        for(Bill bill : billRepository.findByConsumerId(consumer.getId())){
+            if(bill.getPaymentStatus().equals(PaymentStatus.PAID)){
+                response.add(BillMapper.maptoBillResponseDTOFromBill(bill));
+            }
+        }
+        return response;
     }
 }

@@ -9,7 +9,8 @@ import java.util.List;
 
 public interface IComplaintService {
     ComplaintResponseDTO registerComplaint(ComplaintRequestDTO complaintResponseDTO);
-//    List<ComplaintResponseDTO> getComplaintsByConsumerNumber(String consumerNumber);
+
+     List<ComplaintResponseDTO> getComplaintsByConsumerNumber(String consumerNumber);
 
     List<ComplaintResponseDTO> getComplaintsByComplaintNumber(String complaintNumber);
 
@@ -18,4 +19,6 @@ public interface IComplaintService {
     List<ComplaintResponseDTO> getComplaintByStatus(ComplaintStatus complaintStatus);
 
     ComplaintResponseDTO changeStatus(ComplaintStatus complaintStatus,Long id);
+
+    List<ComplaintResponseDTO> getAllComplaints();
 }

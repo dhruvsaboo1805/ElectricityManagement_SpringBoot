@@ -23,12 +23,14 @@ public class AuthController {
 
     private final Auth auth;
     private static String authCode="";
+    private static String username = "";
     private final AuthService authService;
     private final ICustomerService customerService;
 
     @ModelAttribute
-    public void init(@RequestHeader(value = "Authorization") String authCode){
-        AuthController.authCode = authCode;
+    public void init(@RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth){
+        username = uname;
+        authCode = auth;
     }
 
     @PostMapping("/login")
@@ -36,8 +38,7 @@ public class AuthController {
         LoginResponseDTO authDTO = authService.LoginUser(loginRequestDTO);
         HashMap<String,LoginResponseDTO> map = new HashMap<>();
         map.put("result",authDTO);
-//        map.put(authCode , null);
-        if (authDTO != null  && auth.isValidCode(authDTO.getUsername() , authDTO.getAuthToken())) {
+        if (authDTO != null  && auth.isValidUserCode(authDTO.getUsername() , authDTO.getAuthToken())) {
             return ResponseEntity.ok(map);
         } else {
             return ResponseEntity.status(401).body(null);

@@ -8,6 +8,6 @@ public interface IBillService {
     List<BillResponseDTO> getBillByConsumerNumber(String consumerNumber);
     BillResponseDTO payBill(Long id) throws Exception;
     List<BillResponseDTO> getAllBills();
-    List<BillResponseDTO> getAllPaidBills();
+    List<BillResponseDTO> getAllPaidBills(String consumerNumber);
 
 }
