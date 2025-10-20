@@ -38,7 +38,7 @@ public class AuthController {
         LoginResponseDTO authDTO = authService.LoginUser(loginRequestDTO);
         HashMap<String,LoginResponseDTO> map = new HashMap<>();
         map.put("result",authDTO);
-        if (authDTO != null  && auth.isValidUserCode(authDTO.getUsername() , authDTO.getAuthToken())) {
+        if (authDTO != null) {
             return ResponseEntity.ok(map);
         } else {
             return ResponseEntity.status(401).body(null);

@@ -28,12 +28,15 @@ public class AuthService {
         switch (user.getRole()) {
             case CUSTOMER:
                 token = auth.generateUserAuthCode(user.getUsername());
+                System.out.println(auth.getUserTokens());
                 break;
             case ADMIN:
                 token = auth.generateAdminAuthCode(user.getUsername());
+                System.out.println(auth.getAdminTokens());
                 break;
             case SME:
                 token = auth.generateSmeAuthCode(user.getUsername());
+                System.out.println(auth.getSmeTokens());
                 break;
             default:
                 // It's better to throw a server error here if role is invalid

@@ -14,21 +14,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
     private final Auth auth;
-    private static String authCode="";
-    private static String username = "";
+//    private static String authCode="";
+//    private static String username = "";
     private final IAdminService adminService;
     private final ICustomerService customerService;
     private final IBillService billService;
     private final IComplaintService complaintService;
 
-    @ModelAttribute
-    public void init(@RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth){
-        username = uname;
-        authCode = auth;
-    }
+//    @ModelAttribute
+//    public void init(){
+//        username = uname;
+//        authCode = auth;
+//    }
 
     @PostMapping("/register")
-    public ResponseEntity<AdminSMEResponseDTO> createAdmin(@RequestBody AdminSMERequestDTO adminequestDTO) throws Exception {
+    public ResponseEntity<AdminSMEResponseDTO> createAdmin(@RequestBody AdminSMERequestDTO adminequestDTO ,  @RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth) throws Exception {
         AdminSMEResponseDTO lDto = adminService.createAdmin(adminequestDTO);
         if(lDto != null) {
             return ResponseEntity.ok(lDto);
@@ -38,23 +38,26 @@ public class AdminController {
     }
 
     @GetMapping("/allCustomers")
-    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers(){
-        if(!auth.isValidAdminCode(username,authCode))
+    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+        if(!auth.isValidAdminCode(username,authCode)) {
             return ResponseEntity.status(401).body(null);
+        }
 
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
     @PostMapping("/consumers")
-    public ResponseEntity<ConsumerResponseDTO> addConsumer(@RequestBody ConsumerRequestDTO consumerRequestDTO){
-        if(!auth.isValidAdminCode(consumerRequestDTO.getUsername(),authCode))
+    public ResponseEntity<ConsumerResponseDTO> addConsumer(@RequestBody ConsumerRequestDTO consumerRequestDTO , @RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+        if(!auth.isValidAdminCode(username,authCode)) {
+            System.out.println("inside admin add consumer");
             return ResponseEntity.status(401).body(null);
+        }
 
         return ResponseEntity.ok(adminService.addConsumer(consumerRequestDTO));
     }
 
     @GetMapping("/allConsumers")
-    public ResponseEntity<List<ConsumerResponseDTO>> getAllConsumers(){
+    public ResponseEntity<List<ConsumerResponseDTO>> getAllConsumers(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
         if(!auth.isValidAdminCode(username,authCode))
             return ResponseEntity.status(401).body(null);
 
@@ -62,23 +65,23 @@ public class AdminController {
     }
 
     @PostMapping("/consumers/{consumerNumber}/toggle")
-    public ResponseEntity<ConsumerResponseDTO> toggleConsumer(@PathVariable String consumerNumber,@RequestBody AdminUsernameDTO adminUsername){
-        if(!auth.isValidAdminCode(adminUsername.getUsername(),authCode))
+    public ResponseEntity<ConsumerResponseDTO> toggleConsumer(@PathVariable String consumerNumber,@RequestBody AdminUsernameDTO adminUsername , @RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+        if(!auth.isValidAdminCode(username,authCode))
             return ResponseEntity.status(401).body(null);
 
         return ResponseEntity.ok(adminService.ToggleConnection(consumerNumber));
     }
 
     @PostMapping("/bills")
-    public ResponseEntity<BillResponseDTO> addBill(@RequestBody BillRequestDTO billRequestDTO){
-        if(!auth.isValidAdminCode(billRequestDTO.getUsername(),authCode))
+    public ResponseEntity<BillResponseDTO> addBill(@RequestBody BillRequestDTO billRequestDTO , @RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+        if(!auth.isValidAdminCode(username,authCode))
             return ResponseEntity.status(401).body(null);
 
         return ResponseEntity.ok(adminService.addBill(billRequestDTO));
     }
 
     @GetMapping("/allBills")
-    public ResponseEntity<List<BillResponseDTO>> getAllBills(){
+    public ResponseEntity<List<BillResponseDTO>> getAllBills(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
         if(!auth.isValidAdminCode(username , authCode))
             return ResponseEntity.status(401).body(null);
 
@@ -86,7 +89,7 @@ public class AdminController {
     }
 
     @GetMapping("/allComplaints")
-    public ResponseEntity<List<ComplaintResponseDTO>> getAllComplaints(){
+    public ResponseEntity<List<ComplaintResponseDTO>> getAllComplaints(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
         if(!auth.isValidAdminCode(username,authCode))
             return ResponseEntity.status(401).body(null);
         return ResponseEntity.ok(complaintService.getAllComplaints());

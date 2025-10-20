@@ -1,5 +1,7 @@
 package com.example.ElectricityMgmt.config;
 
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 import java.security.SecureRandom;
 import java.util.HashMap;
@@ -7,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
+@Data
 public class Auth {
 
     private static final SecureRandom random = new SecureRandom();
@@ -21,18 +24,30 @@ public class Auth {
     public String generateUserAuthCode(String username) {
         String code = generateCode();
         userTokens.put(username, code);
+        System.out.println("user tokens map");
+        for(Map.Entry<String , String> mp : userTokens.entrySet()) {
+            System.out.println(mp.getKey() + ": " + mp.getValue());
+        }
         return code;
     }
 
     public String generateAdminAuthCode(String username) {
         String code = generateCode();
         adminTokens.put(username, code);
+        System.out.println("admin tokens map");
+        for(Map.Entry<String , String> mp : adminTokens.entrySet()) {
+            System.out.println(mp.getKey() + ": " + mp.getValue());
+        }
         return code;
     }
 
     public String generateSmeAuthCode(String username) {
         String code = generateCode();
         smeTokens.put(username, code);
+        System.out.println("smetokens map");
+        for(Map.Entry<String , String> mp : smeTokens.entrySet()) {
+            System.out.println(mp.getKey() + ": " + mp.getValue());
+        }
         return code;
     }
 
@@ -75,4 +90,5 @@ public class Auth {
         }
         return sb.toString();
     }
+
 }
