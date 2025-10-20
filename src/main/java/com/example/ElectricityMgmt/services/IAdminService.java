@@ -5,7 +5,7 @@ import com.example.ElectricityMgmt.dto.*;
 import java.util.List;
 
 public interface IAdminService {
-    AdminResponseDTO createAdmin(AdminRequestDTO adminRequestDTO);
+    AdminSMEResponseDTO createAdmin(AdminSMERequestDTO adminSMERequestDTO);
     ConsumerResponseDTO addConsumer(ConsumerRequestDTO consumerRequestDTO);
     BillResponseDTO addBill(BillRequestDTO billRequestDTO);
     List<ConsumerResponseDTO> getAllConsumers();

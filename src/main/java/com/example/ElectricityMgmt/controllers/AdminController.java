@@ -4,14 +4,13 @@ import com.example.ElectricityMgmt.config.Auth;
 import com.example.ElectricityMgmt.dto.*;
 import com.example.ElectricityMgmt.services.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*" , allowedHeaders = "*" , methods = {RequestMethod.GET, RequestMethod.POST})
-@RequestMapping("api/admin")
+@RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class AdminController {
     private final Auth auth;
@@ -20,6 +19,7 @@ public class AdminController {
     private final IAdminService adminService;
     private final ICustomerService customerService;
     private final IBillService billService;
+    private final IComplaintService complaintService;
 
     @ModelAttribute
     public void init(@RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth){
@@ -28,8 +28,8 @@ public class AdminController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AdminResponseDTO> createAdmin(@RequestBody AdminRequestDTO adminequestDTO) throws Exception {
-        AdminResponseDTO lDto = adminService.createAdmin(adminequestDTO);
+    public ResponseEntity<AdminSMEResponseDTO> createAdmin(@RequestBody AdminSMERequestDTO adminequestDTO) throws Exception {
+        AdminSMEResponseDTO lDto = adminService.createAdmin(adminequestDTO);
         if(lDto != null) {
             return ResponseEntity.ok(lDto);
         } else {
@@ -85,6 +85,11 @@ public class AdminController {
         return ResponseEntity.ok(billService.getAllBills());
     }
 
-    //TODO admin complaint route
+    @GetMapping("/allComplaints")
+    public ResponseEntity<List<ComplaintResponseDTO>> getAllComplaints(){
+        if(!auth.isValidAdminCode(username,authCode))
+            return ResponseEntity.status(401).body(null);
+        return ResponseEntity.ok(complaintService.getAllComplaints());
+    }
 
 }

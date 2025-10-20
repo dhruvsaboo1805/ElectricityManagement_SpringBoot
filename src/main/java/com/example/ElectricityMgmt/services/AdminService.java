@@ -11,7 +11,6 @@ import com.example.ElectricityMgmt.exceptions.CustomerNoFoundException;
 import com.example.ElectricityMgmt.exceptions.UserNotFoundException;
 import com.example.ElectricityMgmt.mappers.BillMapper;
 import com.example.ElectricityMgmt.mappers.ConsumerMapper;
-import com.example.ElectricityMgmt.mappers.CustomerMapper;
 import com.example.ElectricityMgmt.repositries.IBillRepository;
 import com.example.ElectricityMgmt.repositries.IConsumerRepository;
 import com.example.ElectricityMgmt.repositries.ICustomerRepository;
@@ -34,22 +33,22 @@ public class AdminService implements IAdminService{
     private final IUserRepository userRepository;
 
     @Override
-    public AdminResponseDTO createAdmin(AdminRequestDTO adminRequestDTO) {
+    public AdminSMEResponseDTO createAdmin(AdminSMERequestDTO adminSMERequestDTO) {
         User user = new User();
-        if(userRepository.findByUsername(adminRequestDTO.getUsername()).isPresent()) {
+        if(userRepository.findByUsername(adminSMERequestDTO.getUsername()).isPresent()) {
             throw new UserNotFoundException("Admin already exists try to login");
         }
-        user.setUsername(adminRequestDTO.getUsername());
-        user.setPassword(adminRequestDTO.getPassword());
+        user.setUsername(adminSMERequestDTO.getUsername());
+        user.setPassword(adminSMERequestDTO.getPassword());
         user.setRole(RoleType.ADMIN);
         userRepository.save(user);
-        AdminResponseDTO adminResponseDTO = new AdminResponseDTO().builder()
+        AdminSMEResponseDTO adminSMEResponseDTO = new AdminSMEResponseDTO().builder()
                 .id(user.getId())
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .role(RoleType.ADMIN)
                 .build();
-        return adminResponseDTO;
+        return adminSMEResponseDTO;
     }
 
     @Override

@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 @RestController
 @CrossOrigin(origins = "*" , allowedHeaders = "*" , methods = {RequestMethod.GET, RequestMethod.POST})
-@RequestMapping("api/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -34,7 +34,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> LoginUser(@RequestBody LoginRequestDTO loginRequestDTO) throws Exception {
+    public ResponseEntity<?> Login(@RequestBody LoginRequestDTO loginRequestDTO) throws Exception {
         LoginResponseDTO authDTO = authService.LoginUser(loginRequestDTO);
         HashMap<String,LoginResponseDTO> map = new HashMap<>();
         map.put("result",authDTO);
