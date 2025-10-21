@@ -16,14 +16,12 @@ import com.example.ElectricityMgmt.repositries.IConsumerRepository;
 import com.example.ElectricityMgmt.repositries.ICustomerRepository;
 import com.example.ElectricityMgmt.repositries.IUserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class AdminService implements IAdminService{
 
@@ -95,7 +93,7 @@ public class AdminService implements IAdminService{
 
         billRepository.save(bill);
 
-        log.info("bill created successfully");
+        System.out.println("bill created successfully");
         return BillMapper.maptoBillResponseDTOFromBill(bill);
     }
 

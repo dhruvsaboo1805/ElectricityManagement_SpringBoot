@@ -7,12 +7,10 @@ import com.example.ElectricityMgmt.enums.RoleType;
 import com.example.ElectricityMgmt.exceptions.UserNotFoundException;
 import com.example.ElectricityMgmt.repositries.IUserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class SMEService {
     private final IUserRepository userRepository;
 

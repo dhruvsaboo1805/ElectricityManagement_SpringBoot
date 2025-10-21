@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class ComplaintService implements IComplaintService {
 
@@ -39,11 +38,12 @@ public class ComplaintService implements IComplaintService {
         complaint.setLandMark(complaintRequestDTO.getLandMark());
         complaint.setMobileNumber(complaintRequestDTO.getMobileNumber());
         complaint.setDescription(complaintRequestDTO.getDescription());
+        complaint.setComplaintStatus(complaintRequestDTO.getComplaintStatus());
         complaint.setConsumer(consumer);
 
     complaintRepository.save(complaint);
 
-    log.info("Complaint Registered SuccessFully");
+    System.out.println("Complaint Registered SuccessFully");
 
     return ComplaintMapper.maptoComplaintResponseDTOtoComplaint(complaint);
     }

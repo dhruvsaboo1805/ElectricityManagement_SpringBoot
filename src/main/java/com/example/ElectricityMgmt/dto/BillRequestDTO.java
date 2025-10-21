@@ -16,7 +16,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class BillRequestDTO {
     private String billNumber;
+
     private String consumerNumber;
+
     private String mobileNumber; // Mobile number associated with the bill
 
     private String billPeriod; // Bill period (e.g., "Jan 2025")
@@ -35,5 +37,4 @@ public class BillRequestDTO {
 
     private ConnectionStatus connectionStatus; // Connection status (CONNECTED/DISCONNECTED)
 
-    private String username;
 }

@@ -15,6 +15,7 @@ public class ComplaintMapper {
                 .description(complaint.getDescription())
                 .mobileNumber(complaint.getMobileNumber())
                 .consumerNumber(complaint.getConsumer().getConsumerNumber())
+                .complaintStatus(complaint.getComplaintStatus())
                 .build();
         return complaintResponseDTO;
     }
@@ -30,8 +31,8 @@ Complaint complaint=new Complaint().builder()
         .address(complaintResponseDTO.getAddress())
         .description(complaintResponseDTO.getDescription())
         .mobileNumber(complaintResponseDTO.getMobileNumber())
-        .build()
-        ;
-return complaint;
+        .complaintStatus(complaintResponseDTO.getComplaintStatus())
+        .build();
+        return complaint;
     }
 }

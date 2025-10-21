@@ -58,7 +58,7 @@ public class Complaint {
     private Instant updated_at;
 
     @Enumerated(EnumType.STRING)
-    private ComplaintStatus complaintStatus=ComplaintStatus.PENDING;
+    private ComplaintStatus complaintStatus = ComplaintStatus.PENDING;
 
     @PrePersist
     protected void onCreate() {

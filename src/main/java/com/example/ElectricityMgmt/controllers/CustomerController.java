@@ -42,7 +42,7 @@ public class CustomerController {
     }
 
 
-    @PostMapping("/bills/{consumerNumber}/paidBills")
+    @GetMapping("/bills/{consumerNumber}/paidBills")
     public ResponseEntity<List<BillResponseDTO>> getAllPaidBills(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable String consumerNumber) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
             return ResponseEntity.status(401).body(null);
@@ -57,8 +57,8 @@ public class CustomerController {
         return ResponseEntity.ok(complaintService.registerComplaint(complaintRequestDTO));
     }
 
-    @PostMapping("/complaints/byStatus")
-    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintByStatus(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @RequestBody ComplaintStatus complaintStatus) throws Exception {
+    @PostMapping("/complaints/{complaintStatus}/byStatus")
+    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintByStatus(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable ComplaintStatus complaintStatus) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
             return ResponseEntity.status(401).body(null);
         return ResponseEntity.ok(complaintService.getComplaintByStatus(complaintStatus));

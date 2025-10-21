@@ -7,11 +7,9 @@ import com.example.ElectricityMgmt.entities.User;
 import com.example.ElectricityMgmt.exceptions.UserNotFoundException;
 import com.example.ElectricityMgmt.repositries.IUserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class AuthService {
     private final IUserRepository userRepository;
@@ -28,21 +26,16 @@ public class AuthService {
         switch (user.getRole()) {
             case CUSTOMER:
                 token = auth.generateUserAuthCode(user.getUsername());
-                System.out.println(auth.getUserTokens());
                 break;
             case ADMIN:
                 token = auth.generateAdminAuthCode(user.getUsername());
-                System.out.println(auth.getAdminTokens());
                 break;
             case SME:
                 token = auth.generateSmeAuthCode(user.getUsername());
-                System.out.println(auth.getSmeTokens());
                 break;
             default:
-                // It's better to throw a server error here if role is invalid
                 throw new IllegalStateException("User has an undefined role: " + user.getRole());
         }
-        log.info("token is -> " + token);
 
         LoginResponseDTO loginResponseDTO = new LoginResponseDTO();
         loginResponseDTO.setId(user.getId());
@@ -50,7 +43,6 @@ public class AuthService {
         loginResponseDTO.setPassword(user.getPassword());
         loginResponseDTO.setRole(user.getRole());
         loginResponseDTO.setAuthToken(token);
-        log.info("loginresponse dto is -> " + loginResponseDTO);
         return loginResponseDTO;
     }
 }

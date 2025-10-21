@@ -10,7 +10,6 @@ import com.example.ElectricityMgmt.mappers.CustomerMapper;
 import com.example.ElectricityMgmt.repositries.ICustomerRepository;
 import com.example.ElectricityMgmt.repositries.IUserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class CustomerService implements ICustomerService {
     private final ICustomerRepository customerRepository;
     private final IUserRepository userRepository;
@@ -34,14 +32,13 @@ public class CustomerService implements ICustomerService {
         user.setRole(RoleType.CUSTOMER);
 
         Customer customer = CustomerMapper.mapCustomerRequestDTOToCustomer(customerRequestDTO);
-        log.info("CustomerMapper.mapCustomerRequestDTOToCustomer -> customer={}", customer);
 
         customer.setUser(user);
         user.setCustomer(customer);
         userRepository.save(user);
         customerRepository.save(customer);
 
-        log.info("customer created successfully");
+        System.out.println("customer created successfully");
         return CustomerMapper.mapCustomerToCustomerResponseDTO(customer);
     }
 
@@ -54,8 +51,8 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public CustomerResponseDTO getCustomerById(Long id) {
-        Customer customer = customerRepository.findById(id).orElse(null);
-        log.info("CustomerMapper.getCustomerById -> customer={}", customer);
+        Customer customer = customerRepository.findById(id)
+                .orElse(null);
 
         if(customer != null){
             return CustomerMapper.mapCustomerToCustomerResponseDTO(customer);

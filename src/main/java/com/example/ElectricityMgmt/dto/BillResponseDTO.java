@@ -40,6 +40,6 @@ public class BillResponseDTO {
 
     private ConnectionStatus connectionStatus;
 
-    private ComplaintStatus complaintStatus;
+//    private ComplaintStatus complaintStatus;
 
 }

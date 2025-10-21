@@ -1,6 +1,7 @@
 package com.example.ElectricityMgmt.dto;
 
 import com.example.ElectricityMgmt.enums.ComplaintCategory;
+import com.example.ElectricityMgmt.enums.ComplaintStatus;
 import com.example.ElectricityMgmt.enums.ComplaintType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,4 +21,5 @@ public class ComplaintRequestDTO {
     private String description;
     private String address;
     private String mobileNumber;
+    private ComplaintStatus complaintStatus;
 }
