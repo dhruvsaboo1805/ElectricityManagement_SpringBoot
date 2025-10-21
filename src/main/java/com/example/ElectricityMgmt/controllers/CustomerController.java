@@ -20,20 +20,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerController {
     private final Auth auth;
-    private static String authCode="";
-    private static String username = "";
     private final ICustomerService customerService;
     private final IBillService billService;
     private final IComplaintService complaintService;
 
-    @ModelAttribute
-    public void init(@RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth){
-        username = uname;
-        authCode = auth;
-    }
 
     @GetMapping("/{consumerNumber}/bills")
-    public ResponseEntity<List<BillResponseDTO>> getBillByConsumerNumber(@PathVariable("consumerNumber") String consumerNumber){
+    public ResponseEntity<List<BillResponseDTO>> getBillByConsumerNumber(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable("consumerNumber") String consumerNumber){
         if(!auth.isValidUserCode(username,authCode))
             return ResponseEntity.status(401).body(null);
 
@@ -41,7 +34,7 @@ public class CustomerController {
     }
 
     @PostMapping("/bills/{id}/pay")
-    public ResponseEntity<BillResponseDTO> payBill(@PathVariable Long id) throws Exception {
+    public ResponseEntity<BillResponseDTO> payBill(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable Long id) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
             return ResponseEntity.status(401).body(null);
 
@@ -50,7 +43,7 @@ public class CustomerController {
 
 
     @PostMapping("/bills/{consumerNumber}/paidBills")
-    public ResponseEntity<List<BillResponseDTO>> getAllPaidBills(@PathVariable String consumerNumber) throws Exception {
+    public ResponseEntity<List<BillResponseDTO>> getAllPaidBills(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable String consumerNumber) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
             return ResponseEntity.status(401).body(null);
 
@@ -58,21 +51,21 @@ public class CustomerController {
     }
 
     @PostMapping("/registerComplaint")
-    public ResponseEntity<ComplaintResponseDTO> registerComplaint(@RequestBody ComplaintRequestDTO complaintRequestDTO) throws Exception {
+    public ResponseEntity<ComplaintResponseDTO> registerComplaint(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @RequestBody ComplaintRequestDTO complaintRequestDTO) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
             return ResponseEntity.status(401).body(null);
         return ResponseEntity.ok(complaintService.registerComplaint(complaintRequestDTO));
     }
 
     @PostMapping("/complaints/byStatus")
-    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintByStatus(@RequestBody ComplaintStatus complaintStatus) throws Exception {
+    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintByStatus(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @RequestBody ComplaintStatus complaintStatus) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
             return ResponseEntity.status(401).body(null);
         return ResponseEntity.ok(complaintService.getComplaintByStatus(complaintStatus));
     }
 
     @GetMapping("/{consumerNumber}/complaints")
-    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintsByConsumerNumber(@PathVariable("consumerNumber") String consumerNumber) throws Exception {
+    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintsByConsumerNumber(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable("consumerNumber") String consumerNumber) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
             return ResponseEntity.status(401).body(null);
         return ResponseEntity.ok(complaintService.getComplaintsByConsumerNumber(consumerNumber));

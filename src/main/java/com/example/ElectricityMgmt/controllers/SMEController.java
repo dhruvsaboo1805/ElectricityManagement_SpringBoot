@@ -20,20 +20,12 @@ import java.util.List;
 @RequestMapping("/api/sme")
 @RequiredArgsConstructor
 public class SMEController {
-    private static String authCode = "";
-    private static String username = "";
     private final Auth auth;
     private final IComplaintService complaintService;
     private final SMEService smeService;
 
-    @ModelAttribute
-    public void init(@RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth){
-        username = uname;
-        authCode = auth;
-    }
-
     @PostMapping("/register")
-    public ResponseEntity<AdminSMEResponseDTO> createSME(@RequestBody AdminSMERequestDTO adminSMERequestDTO) throws Exception {
+    public ResponseEntity<AdminSMEResponseDTO> createSME(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @RequestBody AdminSMERequestDTO adminSMERequestDTO) throws Exception {
         AdminSMEResponseDTO Dto = smeService.createSME(adminSMERequestDTO);
         if(Dto != null) {
             return ResponseEntity.ok(Dto);
@@ -43,21 +35,21 @@ public class SMEController {
     }
 
     @GetMapping("/complaints/{complaintNumber}/allcomplaints")
-    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintsByComplaintNumber(@PathVariable String complaintNumber) throws Exception{
+    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintsByComplaintNumber(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable String complaintNumber) throws Exception{
         if(!auth.isValidSmeCode(username,authCode))
             return ResponseEntity.status(401).body(null);
         return ResponseEntity.ok(complaintService.getComplaintsByComplaintNumber(complaintNumber));
     }
 
     @PostMapping("/complaints/{id}/changeStatus")
-    public ResponseEntity<ComplaintResponseDTO> changeStatus(@PathVariable Long id, @RequestBody ComplaintStatus complaintStatus){
+    public ResponseEntity<ComplaintResponseDTO> changeStatus(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable Long id, @RequestBody ComplaintStatus complaintStatus){
         if(!auth.isValidSmeCode(username,authCode))
             return ResponseEntity.status(401).body(null);
         return ResponseEntity.ok(complaintService.changeStatus(complaintStatus , id));
     }
 
     @PostMapping("/complaints/byComplaintType")
-    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintByType(@RequestBody ComplaintType complaintType){
+    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintByType(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @RequestBody ComplaintType complaintType){
         if(!auth.isValidSmeCode(username,authCode))
             return ResponseEntity.status(401).body(null);
         return ResponseEntity.ok(complaintService.getComplaintByType(complaintType));

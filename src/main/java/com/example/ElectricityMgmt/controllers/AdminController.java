@@ -14,18 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
     private final Auth auth;
-//    private static String authCode="";
-//    private static String username = "";
     private final IAdminService adminService;
     private final ICustomerService customerService;
     private final IBillService billService;
     private final IComplaintService complaintService;
 
-//    @ModelAttribute
-//    public void init(){
-//        username = uname;
-//        authCode = auth;
-//    }
 
     @PostMapping("/register")
     public ResponseEntity<AdminSMEResponseDTO> createAdmin(@RequestBody AdminSMERequestDTO adminequestDTO ,  @RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth) throws Exception {
