@@ -1,5 +1,6 @@
 package com.example.ElectricityMgmt.dto;
 
+import com.example.ElectricityMgmt.enums.ConnectionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,5 +13,6 @@ import lombok.NoArgsConstructor;
 public class ConsumerRequestDTO {
     private Long customerId;
     private String consumerNumber;
-    private String username;
+    private ConnectionType connectionType;
+    private String mobileNumber;
 }

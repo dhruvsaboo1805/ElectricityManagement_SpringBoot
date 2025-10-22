@@ -36,8 +36,8 @@ public class AdminService implements IAdminService{
         if(userRepository.findByUsername(adminSMERequestDTO.getUsername()).isPresent()) {
             throw new UserNotFoundException("Admin already exists try to login");
         }
-        user.setUsername(adminSMERequestDTO.getUsername());
-        user.setPassword(adminSMERequestDTO.getPassword());
+        user.setUsername("admin");
+        user.setPassword("@admin");
         user.setRole(RoleType.ADMIN);
         userRepository.save(user);
         AdminSMEResponseDTO adminSMEResponseDTO = new AdminSMEResponseDTO().builder()
@@ -51,6 +51,7 @@ public class AdminService implements IAdminService{
 
     @Override
     public ConsumerResponseDTO addConsumer(ConsumerRequestDTO consumerRequestDTO) {
+        System.out.println(consumerRequestDTO);
         Customer customer = customerRepository.findById(consumerRequestDTO.getCustomerId())
                 .orElseThrow(() -> new CustomerNoFoundException("Customer Not Found"));
 
@@ -60,6 +61,8 @@ public class AdminService implements IAdminService{
 
         Consumer consumer = new Consumer();
         consumer.setConsumerNumber(consumerRequestDTO.getConsumerNumber());
+        consumer.setConnectionType(consumerRequestDTO.getConnectionType());
+        consumer.setMobileNumber(consumerRequestDTO.getMobileNumber());
 
         customer.getConsumers().add(consumer);
         consumer.setCustomer(customer);
@@ -68,6 +71,8 @@ public class AdminService implements IAdminService{
                 .id(consumer.getId())
                 .customerId(customer.getId())
                 .consumerNumber(consumer.getConsumerNumber())
+                .connectionType(consumer.getConnectionType())
+                .mobileNumber(consumer.getMobileNumber())
                 .isConnected(consumer.isConnected())
                 .build();
         return consumerResponseDTO;

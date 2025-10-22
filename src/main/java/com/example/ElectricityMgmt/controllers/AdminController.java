@@ -20,71 +20,71 @@ public class AdminController {
     private final IComplaintService complaintService;
 
 
-    @PostMapping("/register")
-    public ResponseEntity<AdminSMEResponseDTO> createAdmin(@RequestBody AdminSMERequestDTO adminequestDTO ,  @RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth) throws Exception {
-        AdminSMEResponseDTO lDto = adminService.createAdmin(adminequestDTO);
-        if(lDto != null) {
-            return ResponseEntity.ok(lDto);
-        } else {
-            return ResponseEntity.status(401).body(null);
-        }
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<?> createAdmin(@RequestBody AdminSMERequestDTO adminequestDTO ,  @RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth) throws Exception {
+//        AdminSMEResponseDTO lDto = adminService.createAdmin(adminequestDTO);
+//        if(lDto != null) {
+//            return ResponseEntity.ok(lDto);
+//        } else {
+//            return ResponseEntity.status(401).body("Unauthorized Access!!");
+//        }
+//    }
 
     @GetMapping("/allCustomers")
-    public ResponseEntity<List<CustomerResponseDTO>> getAllCustomers(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+    public ResponseEntity<?> getAllCustomers(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
         if(!auth.isValidAdminCode(username,authCode)) {
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
         }
 
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
     @PostMapping("/consumers")
-    public ResponseEntity<ConsumerResponseDTO> addConsumer(@RequestBody ConsumerRequestDTO consumerRequestDTO , @RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+    public ResponseEntity<?> addConsumer(@RequestBody ConsumerRequestDTO consumerRequestDTO , @RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
         if(!auth.isValidAdminCode(username,authCode)) {
-            System.out.println("inside admin add consumer");
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
         }
 
         return ResponseEntity.ok(adminService.addConsumer(consumerRequestDTO));
     }
 
     @GetMapping("/allConsumers")
-    public ResponseEntity<List<ConsumerResponseDTO>> getAllConsumers(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+    public ResponseEntity<?> getAllConsumers(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
         if(!auth.isValidAdminCode(username,authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
 
         return ResponseEntity.ok(adminService.getAllConsumers());
     }
 
     @PostMapping("/consumers/{consumerNumber}/toggle")
-    public ResponseEntity<ConsumerResponseDTO> toggleConsumer(@PathVariable String consumerNumber,@RequestBody AdminUsernameDTO adminUsername , @RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+    public ResponseEntity<?> toggleConsumer(@PathVariable String consumerNumber,@RequestBody AdminUsernameDTO adminUsername , @RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
         if(!auth.isValidAdminCode(username,authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
 
         return ResponseEntity.ok(adminService.ToggleConnection(consumerNumber));
     }
 
     @PostMapping("/bills")
-    public ResponseEntity<BillResponseDTO> addBill(@RequestBody BillRequestDTO billRequestDTO , @RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+    public ResponseEntity<?> addBill(@RequestBody BillRequestDTO billRequestDTO , @RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
         if(!auth.isValidAdminCode(username,authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
 
         return ResponseEntity.ok(adminService.addBill(billRequestDTO));
     }
 
     @GetMapping("/allBills")
-    public ResponseEntity<List<BillResponseDTO>> getAllBills(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+    public ResponseEntity<?> getAllBills(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
         if(!auth.isValidAdminCode(username , authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
 
         return ResponseEntity.ok(billService.getAllBills());
     }
 
     @GetMapping("/allComplaints")
-    public ResponseEntity<List<ComplaintResponseDTO>> getAllComplaints(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
+    public ResponseEntity<?> getAllComplaints(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
         if(!auth.isValidAdminCode(username,authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
+
         return ResponseEntity.ok(complaintService.getAllComplaints());
     }
 

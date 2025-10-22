@@ -26,49 +26,56 @@ public class CustomerController {
 
 
     @GetMapping("/{consumerNumber}/bills")
-    public ResponseEntity<List<BillResponseDTO>> getBillByConsumerNumber(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable("consumerNumber") String consumerNumber){
+    public ResponseEntity<?> getBillByConsumerNumber(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable("consumerNumber") String consumerNumber){
         if(!auth.isValidUserCode(username,authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
 
         return ResponseEntity.ok(billService.getBillByConsumerNumber(consumerNumber));
     }
 
     @PostMapping("/bills/{id}/pay")
-    public ResponseEntity<BillResponseDTO> payBill(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable Long id) throws Exception {
+    public ResponseEntity<?> payBill(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable Long id) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
 
         return ResponseEntity.ok(billService.payBill(id));
     }
 
 
     @GetMapping("/bills/{consumerNumber}/paidBills")
-    public ResponseEntity<List<BillResponseDTO>> getAllPaidBills(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable String consumerNumber) throws Exception {
+    public ResponseEntity<?> getAllPaidBills(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable String consumerNumber) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
 
         return  ResponseEntity.ok(billService.getAllPaidBills(consumerNumber));
     }
 
     @PostMapping("/registerComplaint")
-    public ResponseEntity<ComplaintResponseDTO> registerComplaint(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @RequestBody ComplaintRequestDTO complaintRequestDTO) throws Exception {
+    public ResponseEntity<?> registerComplaint(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @RequestBody ComplaintRequestDTO complaintRequestDTO) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
         return ResponseEntity.ok(complaintService.registerComplaint(complaintRequestDTO));
     }
 
     @PostMapping("/complaints/{complaintStatus}/byStatus")
-    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintByStatus(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable ComplaintStatus complaintStatus) throws Exception {
+    public ResponseEntity<?> getComplaintByStatus(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable ComplaintStatus complaintStatus) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
         return ResponseEntity.ok(complaintService.getComplaintByStatus(complaintStatus));
     }
 
     @GetMapping("/{consumerNumber}/complaints")
-    public ResponseEntity<List<ComplaintResponseDTO>> getComplaintsByConsumerNumber(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable("consumerNumber") String consumerNumber) throws Exception {
+    public ResponseEntity<?> getComplaintsByConsumerNumber(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable("consumerNumber") String consumerNumber) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
         return ResponseEntity.ok(complaintService.getComplaintsByConsumerNumber(consumerNumber));
+    }
+
+    @GetMapping("/allConsumers")
+    public ResponseEntity<?> getAllConsumers(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode) throws Exception {
+        if(!auth.isValidUserCode(username,authCode))
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
+        return ResponseEntity.ok(customerService.getAllConsumers());
     }
 
 

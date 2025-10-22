@@ -41,17 +41,17 @@ public class AuthController {
         if (authDTO != null) {
             return ResponseEntity.ok(map);
         } else {
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<CustomerResponseDTO> createCustomer(@RequestBody CustomerRequestDTO customerRequestDTO) throws Exception {
+    public ResponseEntity<?> createCustomer(@RequestBody CustomerRequestDTO customerRequestDTO) throws Exception {
         CustomerResponseDTO cDto = customerService.createCustomer(customerRequestDTO);
         if(cDto != null) {
             return ResponseEntity.ok(cDto);
         } else {
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.ElectricityMgmt.entities;
 
+import com.example.ElectricityMgmt.enums.ConnectionType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,16 @@ public class Consumer {
     @NotEmpty(message = "Consumer Number is required")
     @Size(min = 10, max = 13, message = "Consumer Number should be between 10 and 13 characters")
     private String consumerNumber;
+
+    @Enumerated(EnumType.STRING)
+    private ConnectionType connectionType;
+
+//    @NotBlank(message = "Address is required and cannot be empty.")
+//    @Column(nullable = false)
+//    private String address;
+
+    @Size(max = 10, message = "Please enter a valid mobile number")
+    private String mobileNumber;
 
     @Column(nullable = false, updatable = false)
     @CreatedDate
