@@ -117,7 +117,6 @@ public class AdminService implements IAdminService{
         consumerRepository.save(consumer);
         return ConsumerMapper.mapToConsumerResponseDTO(consumer);
     }
-
     // todo will resolve the logic
     @Override
     public ConsumerResponseDTO updateConsumer(ConsumerRequestDTO consumerRequestDTO) {
