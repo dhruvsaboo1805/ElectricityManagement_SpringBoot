@@ -26,10 +26,15 @@ import java.time.LocalDate;
 public class Bill {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bill_seq_gen")
+    @SequenceGenerator(
+            name = "bill_seq_gen",
+            sequenceName = "bill_id_sequence",
+            allocationSize = 1
+    )
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true , updatable = false)
     private String billNumber;
 
     @Enumerated(EnumType.STRING)
@@ -73,6 +78,10 @@ public class Bill {
         Instant now = Instant.now();
         this.created_at = now;
         this.updated_at = now;
+
+        if (this.id != null) {
+            this.billNumber = "B" + String.format("%04d", this.id);
+        }
     }
 
     @PreUpdate

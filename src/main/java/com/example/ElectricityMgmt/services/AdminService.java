@@ -84,7 +84,6 @@ public class AdminService implements IAdminService{
                 .orElseThrow(() -> new ConsumerNotFoundException("Consumer Not Found"));
 
         Bill bill = new Bill();
-        bill.setBillNumber(billRequestDTO.getBillNumber());
         bill.setConsumer(consumer);
         bill.setMobileNumber(billRequestDTO.getMobileNumber());
         bill.setBillPeriod(billRequestDTO.getBillPeriod());
@@ -97,6 +96,10 @@ public class AdminService implements IAdminService{
         bill.setConnectionType(billRequestDTO.getConnectionType());
 
         billRepository.save(bill);
+
+//        // we can so this step in more optimized form TODO
+//        bill.setBillNumber("B" + String.format("%04d", bill.getId()));
+//        billRepository.save(bill);
 
         System.out.println("bill created successfully");
         return BillMapper.maptoBillResponseDTOFromBill(bill);

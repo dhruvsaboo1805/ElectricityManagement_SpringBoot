@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BillRequestDTO {
-    private String billNumber;
 
     private String consumerNumber;
 

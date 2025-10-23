@@ -7,6 +7,8 @@ import com.example.ElectricityMgmt.entities.Consumer;
 import com.example.ElectricityMgmt.entities.Customer;
 import com.example.ElectricityMgmt.entities.User;
 import com.example.ElectricityMgmt.enums.RoleType;
+import com.example.ElectricityMgmt.exceptions.ConsumerNotFoundException;
+import com.example.ElectricityMgmt.exceptions.CustomerNoFoundException;
 import com.example.ElectricityMgmt.exceptions.UserNotFoundException;
 import com.example.ElectricityMgmt.mappers.ConsumerMapper;
 import com.example.ElectricityMgmt.mappers.CustomerMapper;
@@ -68,16 +70,16 @@ public class CustomerService implements ICustomerService {
         }
     }
 
-
-    // todo some problem with logic
     @Override
-    public List<ConsumerResponseDTO> getAllConsumers() {
-        List<Consumer> consumers = consumerRepository.findAll();
+    public List<ConsumerResponseDTO> getConsumersByCustomerId(Long customerId) {
+        if (!customerRepository.existsById(customerId)) {
+            throw new CustomerNoFoundException("Customer not found with id: " + customerId);
+        }
 
-        List<ConsumerResponseDTO> response = consumers.stream()
-                .map(ConsumerMapper::mapToConsumerResponseDTO) // Using the mapper
+        List<Consumer> consumers = consumerRepository.findByCustomerId(customerId);
+
+        return consumers.stream()
+                .map(ConsumerMapper::mapToConsumerResponseDTO)
                 .collect(Collectors.toList());
-
-        return response;
     }
 }

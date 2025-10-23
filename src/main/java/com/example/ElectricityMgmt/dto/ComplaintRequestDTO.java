@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ComplaintRequestDTO {
     private String consumerNumber;
-    private String complaintNumber;
     private ComplaintType complaintType;
     private ComplaintCategory complaintCategory;
     private String landMark;

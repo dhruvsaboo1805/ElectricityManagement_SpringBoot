@@ -71,11 +71,11 @@ public class CustomerController {
         return ResponseEntity.ok(complaintService.getComplaintsByConsumerNumber(consumerNumber));
     }
 
-    @GetMapping("/allConsumers")
-    public ResponseEntity<?> getAllConsumers(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode) throws Exception {
+    @GetMapping("/{customerId}/allConsumers")
+    public ResponseEntity<?> getAllConsumers(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable Long customerId) throws Exception {
         if(!auth.isValidUserCode(username,authCode))
             return ResponseEntity.status(401).body("Unauthorized Access!!");
-        return ResponseEntity.ok(customerService.getAllConsumers());
+        return ResponseEntity.ok(customerService.getConsumersByCustomerId(customerId));
     }
 
 

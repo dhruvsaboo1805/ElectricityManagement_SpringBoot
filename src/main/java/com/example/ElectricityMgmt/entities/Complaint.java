@@ -24,10 +24,15 @@ import java.time.Instant;
 @NoArgsConstructor
 public class Complaint {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "complaint_seq_gen")
+    @SequenceGenerator(
+            name = "complaint_seq_gen",
+            sequenceName = "complaint_id_sequence",
+            allocationSize = 1
+    )
     private Long id;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false,unique = true , updatable = false)
     private String complaintNumber;
 
     @Enumerated(EnumType.STRING)
@@ -65,6 +70,10 @@ public class Complaint {
         Instant now = Instant.now();
         this.created_at = now;
         this.updated_at = now;
+
+        if (this.id != null) {
+            this.complaintNumber = "C" + String.format("%04d", this.id);
+        }
     }
 
     @PreUpdate

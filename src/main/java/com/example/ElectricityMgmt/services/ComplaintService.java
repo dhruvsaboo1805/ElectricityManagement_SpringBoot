@@ -31,7 +31,6 @@ public class ComplaintService implements IComplaintService {
         Consumer consumer=
                 consumerRepository.findByConsumerNumber(complaintRequestDTO.getConsumerNumber()).orElseThrow(()-> new ConsumerNotFoundException("Consumer Not found"));
         Complaint complaint=new Complaint();
-        complaint.setComplaintNumber(complaintRequestDTO.getComplaintNumber());
         complaint.setComplaintCategory(complaintRequestDTO.getComplaintCategory());
         complaint.setComplaintType(complaintRequestDTO.getComplaintType());
         complaint.setAddress(complaintRequestDTO.getAddress());
@@ -41,11 +40,11 @@ public class ComplaintService implements IComplaintService {
         complaint.setComplaintStatus(complaintRequestDTO.getComplaintStatus());
         complaint.setConsumer(consumer);
 
-    complaintRepository.save(complaint);
+        complaintRepository.save(complaint);
 
-    System.out.println("Complaint Registered SuccessFully");
+        System.out.println("Complaint Registered SuccessFully");
 
-    return ComplaintMapper.maptoComplaintResponseDTOtoComplaint(complaint);
+        return ComplaintMapper.maptoComplaintResponseDTOtoComplaint(complaint);
     }
 
     @Override

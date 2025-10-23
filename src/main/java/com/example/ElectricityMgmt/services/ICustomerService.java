@@ -13,5 +13,6 @@ public interface ICustomerService {
 
     CustomerResponseDTO getCustomerById(Long id);
 
-    List<ConsumerResponseDTO> getAllConsumers();
+    List<ConsumerResponseDTO> getConsumersByCustomerId(Long customerId);
+
 }
