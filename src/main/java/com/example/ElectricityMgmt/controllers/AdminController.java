@@ -20,15 +20,15 @@ public class AdminController {
     private final IComplaintService complaintService;
 
 
-//    @PostMapping("/register")
-//    public ResponseEntity<?> createAdmin(@RequestBody AdminSMERequestDTO adminequestDTO ,  @RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth) throws Exception {
-//        AdminSMEResponseDTO lDto = adminService.createAdmin(adminequestDTO);
-//        if(lDto != null) {
-//            return ResponseEntity.ok(lDto);
-//        } else {
-//            return ResponseEntity.status(401).body("Unauthorized Access!!");
-//        }
-//    }
+    @PostMapping("/register")
+    public ResponseEntity<?> createAdmin(@RequestBody AdminSMERequestDTO adminequestDTO ,  @RequestHeader("Username") String uname, @RequestHeader("Authorization") String auth) throws Exception {
+        AdminSMEResponseDTO lDto = adminService.createAdmin(adminequestDTO);
+        if(lDto != null) {
+            return ResponseEntity.ok(lDto);
+        } else {
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
+        }
+    }
 
     @GetMapping("/allCustomers")
     public ResponseEntity<?> getAllCustomers(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode){
