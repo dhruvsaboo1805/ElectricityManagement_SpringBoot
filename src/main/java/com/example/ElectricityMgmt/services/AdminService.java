@@ -36,7 +36,7 @@ public class AdminService implements IAdminService{
         if(userRepository.findByUsername(adminSMERequestDTO.getUsername()).isPresent()) {
             throw new UserNotFoundException("Admin already exists try to login");
         }
-        user.setUsername("admin");
+        user.setUsername(adminSMERequestDTO.getUsername());
         user.setPassword("@admin");
         user.setRole(RoleType.ADMIN);
         userRepository.save(user);
