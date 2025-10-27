@@ -80,9 +80,9 @@ public class CustomerController {
 
     @GetMapping("/{customerId}")
     public ResponseEntity<?> getCustomerDetailById(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable Long customerId) throws  Exception{
-        if(!auth.isValidUserCode(username,authCode))
-            return ResponseEntity.status(401).body("Unauthorized Access!!");
-        return ResponseEntity.ok(customerService.getCustomerById(customerId));
+        if(auth.isValidUserCode(username,authCode) || auth.isValidAdminCode(username,authCode) || auth.isValidSmeCode(username,authCode))
+            return ResponseEntity.ok(customerService.getCustomerById(customerId));
+        return ResponseEntity.status(401).body("Unauthorized Access!!");
     }
 
 }

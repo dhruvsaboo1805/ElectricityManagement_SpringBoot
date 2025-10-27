@@ -87,5 +87,5 @@ public class Complaint {
 
     @ManyToOne()
     @JoinColumn(name = "assigned_to")
-    private User assignedTo;
+    private Customer assignedTo;
 }

@@ -4,6 +4,7 @@ import com.example.ElectricityMgmt.dto.ComplaintRequestDTO;
 import com.example.ElectricityMgmt.dto.ComplaintResponseDTO;
 import com.example.ElectricityMgmt.entities.Complaint;
 import com.example.ElectricityMgmt.entities.Consumer;
+import com.example.ElectricityMgmt.entities.Customer;
 import com.example.ElectricityMgmt.entities.User;
 import com.example.ElectricityMgmt.enums.ComplaintStatus;
 import com.example.ElectricityMgmt.enums.ComplaintType;
@@ -13,6 +14,7 @@ import com.example.ElectricityMgmt.exceptions.UserNotFoundException;
 import com.example.ElectricityMgmt.mappers.ComplaintMapper;
 import com.example.ElectricityMgmt.repositries.IComplaintRepository;
 import com.example.ElectricityMgmt.repositries.IConsumerRepository;
+import com.example.ElectricityMgmt.repositries.ICustomerRepository;
 import com.example.ElectricityMgmt.repositries.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,7 @@ public class ComplaintService implements IComplaintService {
 
     private final IConsumerRepository consumerRepository;
     private final IComplaintRepository complaintRepository;
+    private final ICustomerRepository customerRepository;
 
     private final IUserRepository userRepository;
     @Override
@@ -100,7 +103,8 @@ public class ComplaintService implements IComplaintService {
 
     @Override
     public List<ComplaintResponseDTO> getComplaintByAssignedTo(Long id) {
-        User sme=userRepository.findById(Math.toIntExact(id)).orElseThrow(()->new UserNotFoundException("Sme Not found"));
+         Customer sme=
+                 customerRepository.findById(id).orElseThrow(()->new UserNotFoundException("Sme Not found"));
         return complaintRepository
                 .findByAssignedTo(sme)
                 .stream()

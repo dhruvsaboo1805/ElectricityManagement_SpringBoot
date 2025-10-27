@@ -2,6 +2,7 @@ package com.example.ElectricityMgmt.repositries;
 
 import com.example.ElectricityMgmt.dto.ComplaintResponseDTO;
 import com.example.ElectricityMgmt.entities.Complaint;
+import com.example.ElectricityMgmt.entities.Customer;
 import com.example.ElectricityMgmt.entities.User;
 import com.example.ElectricityMgmt.enums.ComplaintStatus;
 import com.example.ElectricityMgmt.enums.ComplaintType;
@@ -18,5 +19,5 @@ List<Complaint> findByComplaintType(ComplaintType complaintType);
 
 List<Complaint> findByComplaintStatus(ComplaintStatus complaintStatus);
 
-List<Complaint> findByAssignedTo(User sme);
+List<Complaint> findByAssignedTo(Customer sme);
 }

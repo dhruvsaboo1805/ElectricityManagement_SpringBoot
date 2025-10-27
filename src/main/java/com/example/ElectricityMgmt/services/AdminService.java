@@ -128,7 +128,8 @@ public class AdminService implements IAdminService{
 
     @Override
     public ComplaintResponseDTO assignComplaintToSME(AssignComplaintToSMEDTO assignComplaintToSMEDTO) {
-        User sme=userRepository.findById(assignComplaintToSMEDTO.getSmeId()).orElseThrow(()-> new UserNotFoundException("SME Not found"));
+        Customer sme=customerRepository.findById(assignComplaintToSMEDTO.getSmeId()).orElseThrow(()-> new UserNotFoundException(
+                "SME Not found"));
         Complaint complaint=complaintRepository.findById(assignComplaintToSMEDTO.getComplaintId()).orElseThrow(()->new ComplaintNotFoundException("Complaint not Found"));
         complaint.setAssignedTo(sme);
         complaintRepository.save(complaint);
