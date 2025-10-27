@@ -84,4 +84,8 @@ public class Complaint {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "consumer_id")
     private Consumer consumer;
+
+    @ManyToOne()
+    @JoinColumn(name = "assigned_to")
+    private User assignedTo;
 }

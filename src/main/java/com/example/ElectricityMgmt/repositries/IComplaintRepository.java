@@ -2,6 +2,7 @@ package com.example.ElectricityMgmt.repositries;
 
 import com.example.ElectricityMgmt.dto.ComplaintResponseDTO;
 import com.example.ElectricityMgmt.entities.Complaint;
+import com.example.ElectricityMgmt.entities.User;
 import com.example.ElectricityMgmt.enums.ComplaintStatus;
 import com.example.ElectricityMgmt.enums.ComplaintType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,6 @@ List<Complaint> findByComplaintNumber(String consumerNumber);
 List<Complaint> findByComplaintType(ComplaintType complaintType);
 
 List<Complaint> findByComplaintStatus(ComplaintStatus complaintStatus);
+
+List<Complaint> findByAssignedTo(User sme);
 }

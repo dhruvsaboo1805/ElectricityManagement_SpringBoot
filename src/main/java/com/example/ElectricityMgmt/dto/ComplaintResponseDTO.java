@@ -1,5 +1,6 @@
 package com.example.ElectricityMgmt.dto;
 
+import com.example.ElectricityMgmt.entities.User;
 import com.example.ElectricityMgmt.enums.ComplaintCategory;
 import com.example.ElectricityMgmt.enums.ComplaintStatus;
 import com.example.ElectricityMgmt.enums.ComplaintType;
@@ -23,4 +24,5 @@ public class ComplaintResponseDTO {
     private String address;
     private String mobileNumber;
     private ComplaintStatus complaintStatus;
+    private Long smeId;
 }

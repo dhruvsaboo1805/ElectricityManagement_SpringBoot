@@ -1,21 +1,18 @@
 package com.example.ElectricityMgmt.services;
 
 import com.example.ElectricityMgmt.dto.*;
-import com.example.ElectricityMgmt.entities.Bill;
-import com.example.ElectricityMgmt.entities.Consumer;
-import com.example.ElectricityMgmt.entities.Customer;
-import com.example.ElectricityMgmt.entities.User;
+import com.example.ElectricityMgmt.entities.*;
 import com.example.ElectricityMgmt.enums.RoleType;
+import com.example.ElectricityMgmt.exceptions.ComplaintNotFoundException;
 import com.example.ElectricityMgmt.exceptions.ConsumerNotFoundException;
 import com.example.ElectricityMgmt.exceptions.CustomerNoFoundException;
 import com.example.ElectricityMgmt.exceptions.UserNotFoundException;
 import com.example.ElectricityMgmt.mappers.BillMapper;
+import com.example.ElectricityMgmt.mappers.ComplaintMapper;
 import com.example.ElectricityMgmt.mappers.ConsumerMapper;
-import com.example.ElectricityMgmt.repositries.IBillRepository;
-import com.example.ElectricityMgmt.repositries.IConsumerRepository;
-import com.example.ElectricityMgmt.repositries.ICustomerRepository;
-import com.example.ElectricityMgmt.repositries.IUserRepository;
+import com.example.ElectricityMgmt.repositries.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +26,8 @@ public class AdminService implements IAdminService{
     private final IBillRepository billRepository;
     private final ICustomerRepository customerRepository;
     private final IUserRepository userRepository;
+
+    private final IComplaintRepository complaintRepository;
 
     @Override
     public AdminSMEResponseDTO createAdmin(AdminSMERequestDTO adminSMERequestDTO) {
@@ -125,5 +124,14 @@ public class AdminService implements IAdminService{
     public ConsumerResponseDTO updateConsumer(ConsumerRequestDTO consumerRequestDTO) {
         return null;
 
+    }
+
+    @Override
+    public ComplaintResponseDTO assignComplaintToSME(AssignComplaintToSMEDTO assignComplaintToSMEDTO) {
+        User sme=userRepository.findById(assignComplaintToSMEDTO.getSmeId()).orElseThrow(()-> new UserNotFoundException("SME Not found"));
+        Complaint complaint=complaintRepository.findById(assignComplaintToSMEDTO.getComplaintId()).orElseThrow(()->new ComplaintNotFoundException("Complaint not Found"));
+        complaint.setAssignedTo(sme);
+        complaintRepository.save(complaint);
+        return ComplaintMapper.maptoComplaintResponseDTOtoComplaint(complaint);
     }
 }

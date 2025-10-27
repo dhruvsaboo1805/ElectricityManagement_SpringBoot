@@ -2,6 +2,7 @@ package com.example.ElectricityMgmt.services;
 
 import com.example.ElectricityMgmt.dto.ComplaintRequestDTO;
 import com.example.ElectricityMgmt.dto.ComplaintResponseDTO;
+import com.example.ElectricityMgmt.entities.User;
 import com.example.ElectricityMgmt.enums.ComplaintStatus;
 import com.example.ElectricityMgmt.enums.ComplaintType;
 
@@ -21,4 +22,6 @@ public interface IComplaintService {
     ComplaintResponseDTO changeStatus(ComplaintStatus complaintStatus,Long id);
 
     List<ComplaintResponseDTO> getAllComplaints();
+
+    List<ComplaintResponseDTO> getComplaintByAssignedTo(Long id);
 }

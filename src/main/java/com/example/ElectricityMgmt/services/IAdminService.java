@@ -12,4 +12,6 @@ public interface IAdminService {
     ConsumerResponseDTO ToggleConnection(String consumerNumber);
     // the last api i will think its TODO
     ConsumerResponseDTO updateConsumer(ConsumerRequestDTO consumerRequestDTO);
+
+    ComplaintResponseDTO assignComplaintToSME(AssignComplaintToSMEDTO assignComplaintToSMEDTO);
 }

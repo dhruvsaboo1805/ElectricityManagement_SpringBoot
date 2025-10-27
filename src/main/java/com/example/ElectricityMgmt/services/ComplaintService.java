@@ -4,13 +4,16 @@ import com.example.ElectricityMgmt.dto.ComplaintRequestDTO;
 import com.example.ElectricityMgmt.dto.ComplaintResponseDTO;
 import com.example.ElectricityMgmt.entities.Complaint;
 import com.example.ElectricityMgmt.entities.Consumer;
+import com.example.ElectricityMgmt.entities.User;
 import com.example.ElectricityMgmt.enums.ComplaintStatus;
 import com.example.ElectricityMgmt.enums.ComplaintType;
 import com.example.ElectricityMgmt.exceptions.ComplaintNotFoundException;
 import com.example.ElectricityMgmt.exceptions.ConsumerNotFoundException;
+import com.example.ElectricityMgmt.exceptions.UserNotFoundException;
 import com.example.ElectricityMgmt.mappers.ComplaintMapper;
 import com.example.ElectricityMgmt.repositries.IComplaintRepository;
 import com.example.ElectricityMgmt.repositries.IConsumerRepository;
+import com.example.ElectricityMgmt.repositries.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,8 @@ public class ComplaintService implements IComplaintService {
 
     private final IConsumerRepository consumerRepository;
     private final IComplaintRepository complaintRepository;
+
+    private final IUserRepository userRepository;
     @Override
     public ComplaintResponseDTO registerComplaint(ComplaintRequestDTO complaintRequestDTO) {
         Consumer consumer=
@@ -39,6 +44,7 @@ public class ComplaintService implements IComplaintService {
         complaint.setDescription(complaintRequestDTO.getDescription());
         complaint.setComplaintStatus(complaintRequestDTO.getComplaintStatus());
         complaint.setConsumer(consumer);
+        complaint.setAssignedTo(null);
 
         complaintRepository.save(complaint);
 
@@ -90,5 +96,14 @@ public class ComplaintService implements IComplaintService {
         return complaintRepository.findAll().stream()
                 .map(ComplaintMapper::maptoComplaintResponseDTOtoComplaint)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ComplaintResponseDTO> getComplaintByAssignedTo(Long id) {
+        User sme=userRepository.findById(Math.toIntExact(id)).orElseThrow(()->new UserNotFoundException("Sme Not found"));
+        return complaintRepository
+                .findByAssignedTo(sme)
+                .stream()
+                .map(ComplaintMapper::maptoComplaintResponseDTOtoComplaint).collect(Collectors.toList());
     }
 }

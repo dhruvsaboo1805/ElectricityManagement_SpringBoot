@@ -15,6 +15,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -63,6 +64,6 @@ public class User {
     @OneToOne(mappedBy = "user" , cascade = CascadeType.ALL)
     private Customer customer;
 
-
-
+//    @OneToMany(mappedBy = "assignedTo",cascade = CascadeType.ALL,orphanRemoval = true)
+//    private List<Complaint> assignedComplaints;
 }

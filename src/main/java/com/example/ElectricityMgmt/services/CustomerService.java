@@ -60,13 +60,26 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public CustomerResponseDTO getCustomerById(Long id) {
+        System.out.println(id);
         Customer customer = customerRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(()-> new CustomerNoFoundException("Customer Not Found"));
 
         if(customer != null){
             return CustomerMapper.mapCustomerToCustomerResponseDTO(customer);
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public CustomerResponseDTO getCustomerByUserId(Long id) {
+//        System.out.println(id);
+        Customer customer = customerRepository.findByUserId(id);
+
+        if(customer != null){
+            return CustomerMapper.mapCustomerToCustomerResponseDTO(customer);
+        } else {
+            throw new CustomerNoFoundException("Customer Not found");
         }
     }
 

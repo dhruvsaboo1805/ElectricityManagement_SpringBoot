@@ -16,4 +16,6 @@ public class LoginResponseDTO {
     private String password;
     private RoleType role;
     private String authToken;
+
+    private Long cid;
 }

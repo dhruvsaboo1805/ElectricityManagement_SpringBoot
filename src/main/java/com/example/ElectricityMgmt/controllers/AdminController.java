@@ -87,5 +87,11 @@ public class AdminController {
 
         return ResponseEntity.ok(complaintService.getAllComplaints());
     }
+    @PostMapping("/assignComplaint")
+    public ResponseEntity<?> assignComplaintToSme(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode,@RequestBody AssignComplaintToSMEDTO assignComplaintToSMEDTO){
+        if(!auth.isValidAdminCode(username,authCode))
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
+        return ResponseEntity.ok(adminService.assignComplaintToSME(assignComplaintToSMEDTO));
+    }
 
 }

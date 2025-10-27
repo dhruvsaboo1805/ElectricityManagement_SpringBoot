@@ -16,6 +16,7 @@ public class ComplaintMapper {
                 .mobileNumber(complaint.getMobileNumber())
                 .consumerNumber(complaint.getConsumer().getConsumerNumber())
                 .complaintStatus(complaint.getComplaintStatus())
+                .smeId(complaint.getAssignedTo()!=null?complaint.getAssignedTo().getId():null)
                 .build();
         return complaintResponseDTO;
     }
@@ -32,6 +33,7 @@ Complaint complaint=new Complaint().builder()
         .description(complaintResponseDTO.getDescription())
         .mobileNumber(complaintResponseDTO.getMobileNumber())
         .complaintStatus(complaintResponseDTO.getComplaintStatus())
+        .assignedTo(null)
         .build();
         return complaint;
     }

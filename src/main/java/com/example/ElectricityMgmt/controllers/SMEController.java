@@ -33,11 +33,11 @@ public class SMEController {
 //        }
 //    }
 
-    @GetMapping("/complaints/allcomplaints")
-    public ResponseEntity<?> getComplaintsByComplaintNumber(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode) throws Exception{
+    @GetMapping("/complaints/{id}/allcomplaints")
+    public ResponseEntity<?> getComplaintsByComplaintNumber(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode,@PathVariable Long id) throws Exception{
         if(!auth.isValidSmeCode(username,authCode))
             return ResponseEntity.status(401).body("Unauthorized Access!!");
-        return ResponseEntity.ok(complaintService.getAllComplaints());
+        return ResponseEntity.ok(complaintService.getComplaintByAssignedTo(id));
     }
 
     @PostMapping("/complaints/{id}/changeStatus")

@@ -43,6 +43,7 @@ public class AuthService {
         loginResponseDTO.setPassword(user.getPassword());
         loginResponseDTO.setRole(user.getRole());
         loginResponseDTO.setAuthToken(token);
+        loginResponseDTO.setCid(user.getCustomer().getId());
         return loginResponseDTO;
     }
 }

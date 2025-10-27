@@ -15,4 +15,6 @@ public interface ICustomerService {
 
     List<ConsumerResponseDTO> getConsumersByCustomerId(Long customerId);
 
+
+    CustomerResponseDTO getCustomerByUserId(Long id);
 }

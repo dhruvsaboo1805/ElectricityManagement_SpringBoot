@@ -78,5 +78,11 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getConsumersByCustomerId(customerId));
     }
 
+    @GetMapping("/{customerId}")
+    public ResponseEntity<?> getCustomerDetailById(@RequestHeader("Username") String username, @RequestHeader("Authorization") String authCode , @PathVariable Long customerId) throws  Exception{
+        if(!auth.isValidUserCode(username,authCode))
+            return ResponseEntity.status(401).body("Unauthorized Access!!");
+        return ResponseEntity.ok(customerService.getCustomerById(customerId));
+    }
 
 }
